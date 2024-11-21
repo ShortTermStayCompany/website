@@ -5,7 +5,8 @@ import RoleSelector from "../RoleSelector/RoleSelector.jsx";
 import InputField from "../InputField/InputField.jsx";
 import SubmitButton from "../SubmitButton/SubmitButton.jsx";
 import CloseButton from "../CloseButton/CloseButton.jsx";
-const RegisterModal = () => {
+
+const RegisterModal = ({onClose}) => {
 
     const [selectedRole, setSelectedRole] = React.useState('Guest');
     const roles = ['Guest', 'Host'];
@@ -65,7 +66,7 @@ const RegisterModal = () => {
     return (
 
         <div className="RegisterModal">
-            <CloseButton></CloseButton>
+            <CloseButton onClick={onClose}></CloseButton>
             <InputField
                 type="text"
                 placeholder="Name Surname"

@@ -1,0 +1,103 @@
+/* General Navbar Styling */
+.navbar {
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", serif;
+    position: sticky;
+    /*top: 0;*/
+    z-index: 1000;
+    margin-bottom: 20px;
+}
+
+
+.navbar-brand {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FF385C;
+    text-transform: lowercase;
+}
+
+/* Navigation Links */
+.navbar-links {
+    border: 1px solid red;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-link {
+
+    text-decoration: none;
+    font-size: 16px;
+    color: #484848;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar-link:hover {
+    color: #FF385C; /* Airbnb red on hover */
+    font-weight: bold;
+
+}
+
+.navbar-link.active {
+    font-weight: bold;
+    color: black;
+}
+
+/* Right Side */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar-icon-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.navbar-menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border: 1px solid #d3d3d3;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    gap: 8px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navbar-menu-button:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+    font-size: 18px;
+}
+
+.profile-icon {
+
+    font-size: 18px;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+
+    width: 26px;
+    height: 26px;
+    padding-left: 1px;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-menu-button:hover .profile-icon {
+    background-color: #bfbfbf; /* Darker gray on hover */
+}

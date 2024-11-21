@@ -1,12 +1,15 @@
-import RegisterModal from "../components/feature/loginRegister/registerModal/RegisterModal.jsx";
+import './HomePage.css'
+import Navbar from "../components/feature/Navbar/Navbar.jsx";
+
 const HomePage = () => {
 
-    return(
+    return (
         <div>
-            {/*<LoginModal/>*/}
-            <RegisterModal />
-        </div>
-    )
+            <Navbar></Navbar>
+
+            </div>
+
+)
 }
 
 export default HomePage;
