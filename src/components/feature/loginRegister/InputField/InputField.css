@@ -12,6 +12,12 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+.inputField input:hover{
+    transition: transform 0.1s ease-out; /* Smooth transition */
+
+    transform: scale(1.05); /* Shrinks the button to 90% of its size when clicked */
+}
+
 .inputField input.fail{
     border: 1px solid #ff5a5f;
 }
@@ -34,3 +40,4 @@
     position: absolute;
     text-align: left;
 }
+
