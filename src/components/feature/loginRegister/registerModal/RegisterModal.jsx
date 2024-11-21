@@ -1,11 +1,10 @@
 import React from 'react';
 import './RegisterModal.css'
 import {registerUser} from "../../../../Api/apiService.js";
-import error from "eslint-plugin-react/lib/util/error.js";
 
 const RegisterModal = () => {
-
-    // when selectedRole changes all of the RegisterModal will be updated
+//
+    // when selectedRole changes all the RegisterModal will be updated
     const [selectedRole, setSelectedRole] = React.useState('Guest');
     // const roles = ['Guest', 'Host', 'Admin'];
     const roles = ['Guest', 'Host'];
@@ -13,7 +12,7 @@ const RegisterModal = () => {
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [nameValid, setNameValid] = React.useState('true');
+    const [nameValid, setNameValid] = React.useState(true);
     const [emailValid, setEmailValid] = React.useState(true); // Track email validity
     const [passwordValid, setPasswordValid] = React.useState(true);
 
@@ -25,7 +24,7 @@ const RegisterModal = () => {
     const handleRegister = async () => {
         setNameValid(name) // check if empty
         setEmailValid(email) // check if empty
-        setEmailValid(password) // check if empty
+        setPasswordValid(password) // check if empty
 
 
         if (nameValid && emailValid && passwordValid) {
@@ -41,7 +40,7 @@ const RegisterModal = () => {
             console.log(nameValid);
             console.log(passwordValid);
 
-            console.error('Error during register user:', error);
+            console.error('Error during register user:');
         }
     };
 
