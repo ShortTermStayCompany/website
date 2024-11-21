@@ -1,0 +1,128 @@
+body {
+    background-color: rgba(183, 183, 183, 0.4);
+}
+
+.RegisterModal {
+    position: fixed; /* Makes the div independent of other components */
+    flex-grow: inherit;
+    width: 300px;
+    min-height: 400px;
+    background-color: #f8f9fa;
+
+    top: 50%;        /* Center vertically */
+    left: 50%;       /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by 50% of its width and height */
+    /*padding: 20px;   !* Optional: Add some padding *!*/
+    border-radius: 10px;
+    /*border: #888888 3px solid;*/
+    display: flex;       /* Enable Flexbox */
+    flex-direction: column; /* Align children in a row (default, but explicitly stated) */
+    gap: 30px;           /* Optional: Add spacing between items */
+    justify-content: center; /* Optional: Center items horizontally */
+    align-items: center;    /* Optional: Center items vertically */
+    animation: fadeIn 0.3s ease-out;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.RegisterModal input{
+    padding: 12px;
+    vertical-align: center;
+
+    width: 80%;
+    border-radius: 10px;
+    /*border-width: 0.07cm;*/
+    border: none;
+    font-family: 'Poppins Light', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+}
+.RegisterModal input.fail{
+    border: 1px solid #ff5a5f;
+    margin: 0;
+
+}
+
+.RegisterModal input:focus{
+    outline: none;
+    border: rgb(161, 161, 161) 1px solid;
+
+
+}
+
+.error{
+    text-align: left;
+}
+
+.RegisterButton{
+    padding: 12px;
+    width: 270px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #ff5a5f;
+    font-family: 'Poppins Light', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+    color: white;
+
+}
+.RegisterButton button:hover{
+    background-color: #ff5a5f;
+
+
+}
+
+.RoleSelector{
+
+    width: 90%;
+    height: 100%;
+    /*border-radius: 10px;*/
+    /*border: 1px solid #888888;*/
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+
+}
+.RoleSelectorButton {
+
+    width: 160px;
+    height: 45px;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins Light', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-width: 0px 0px 0px 0px;
+
+}
+
+.RoleSelectorButton.selected {
+    background-color: #ff5a5f;
+    color: white;
+}
+
+.RoleSelectorButton.selected:hover {
+    background-color: #ff5a5f;
+    color: white;
+}
+.RoleSelectorButton:hover {
+    background-color: #cecece;
+}
+
+
+.RegisterButton:active {
+    transition: transform 0.2s ease-out; /* Smooth transition */
+
+    transform: scale(0.91); /* Shrinks the button to 90% of its size when clicked */
+
+}
+.RoleSelectorButton:active{
+    transition: transform 0.2s ease; /* Smooth transition */
+
+    transform: scale(0.9); /* Shrinks the button to 90% of its size when clicked */
+
+}
+
+

@@ -1,0 +1,26 @@
+.loginModal {
+    position: fixed; /* Makes the div independent of other components */
+    width: 30%;
+
+
+    top: 50%;        /* Center vertically */
+    left: 50%;       /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by 50% of its width and height */
+    padding: 20px;   /* Optional: Add some padding */
+    border-radius: 10px;
+    border: #888888 3px solid;
+    display: flex;       /* Enable Flexbox */
+    flex-direction: column; /* Align children in a row (default, but explicitly stated) */
+    gap: 30px;           /* Optional: Add spacing between items */
+    justify-content: center; /* Optional: Center items horizontally */
+    align-items: center;    /* Optional: Center items vertically */
+}
+
+.loginModal input{
+    padding: 12px;
+    width: 80%;
+    height: 110%;
+    border-radius: 10px;
+
+
+}
