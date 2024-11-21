@@ -1,4 +1,4 @@
-import RegisterModal from "../components/feature/loginRegister/registerModal/registerModal.jsx";
+import RegisterModal from "../components/feature/loginRegister/registerModal/RegisterModal.jsx";
 const HomePage = () => {
 
     return(
