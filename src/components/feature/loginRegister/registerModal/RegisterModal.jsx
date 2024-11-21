@@ -23,11 +23,11 @@ const RegisterModal = () => {
 
 
     const handleRegister = async () => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // At least 8 characters, includes letters and integers
-        setEmailValid(emailRegex.test(email)); // Update email validity state
-        setPasswordValid(passwordRegex.test(password)); // Update password validity state
-        setNameValid(name.length > 0);
+        setNameValid(name) // check if empty
+        setEmailValid(email) // check if empty
+        setEmailValid(password) // check if empty
+
+
         if (nameValid && emailValid && passwordValid) {
             try {
                 const userData = {name: name, email: email, password: password, role: selectedRole.toLowerCase()};
@@ -55,17 +55,13 @@ const RegisterModal = () => {
                 placeholder="Name Surname"
                 value={name}
                 onChange={(e) => {
-                    const newName = e.target.value;
-
-                    setName(newName); // Update the state with the current input value
-
-                    // Validate the name here (e.g., with a regex or custom logic)
-                    if (newName.trim().length < 3) {
+                    setName(e.target.value)
+                    if (name.trim().length < 3) {
                         setNameValid(false); // Set valid state to false if invalid
                     } else {
                         setNameValid(true); // Set valid state to true if valid
                     }
-                }}
+                }} // Update the state on change
             />
             {!nameValid && (
                 <span className="error"> Enter Your Name !</span>
@@ -75,19 +71,13 @@ const RegisterModal = () => {
             }
             <input className={`${emailValid ? '' : 'fail'}`} // Add 'fail' class dynamically
                    type={'email'}
-                   placeholder={`${emailValid ? '' : 'Email'}`}
+                   placeholder="Email"
                    onChange={(e) => {
-                       const newName = e.target.value;
+                       setEmail(e.target.value)
+                       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+                       setEmailValid(emailRegex.test(email));} // Update the password state
+                   }
 
-                       setName(newName); // Update the state with the current input value
-
-                       // Validate the name here (e.g., with a regex or custom logic)
-                       if (newName.trim().length < 3) {
-                           setNameValid(false); // Set valid state to false if invalid
-                       } else {
-                           setNameValid(true); // Set valid state to true if valid
-                       }
-                   }}
             />
             {!emailValid && (
                 <span className="error"> Enter a valid Email Address</span>
@@ -97,8 +87,12 @@ const RegisterModal = () => {
             }
             <input className={`${passwordValid ? '' : 'fail'}`} // Add 'fail' class dynamically
                    type={'password'}
-                   placeholder={`${passwordValid ? '' : 'Password'}`}
-                   onChange={(e) => setPassword(e.target.value)} // Update the password state
+                   placeholder="Password"
+                   onChange={(e) => {
+                       setPassword(e.target.value)
+                       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // At least 8 characters, includes letters and integers
+                       setPasswordValid(passwordRegex.test(password)); // Update password validity state
+                   }} // Update the password state
             ></input>
             {!passwordValid && (
                 <span className="error"> Enter a valid Password !</span>
