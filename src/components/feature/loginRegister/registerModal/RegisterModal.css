@@ -26,30 +26,6 @@ body {
     padding: 20px;
 }
 
-.RegisterButton{
-    padding: 12px;
-    width: 270px;
-    border-radius: 10px;
-    cursor: pointer;
-    border: none;
-    background-color: #ff5a5f;
-    font-family: 'Poppins Light', sans-serif;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 
-    color: white;
-
-}
-.RegisterButton button:hover{
-    background-color: #ff5a5f;
-
-
-}
-
-.RegisterButton:active {
-    transition: transform 0.2s ease-out; /* Smooth transition */
-
-    transform: scale(0.91); /* Shrinks the button to 90% of its size when clicked */
-
-}
 
 

@@ -3,6 +3,7 @@ import './RegisterModal.css';
 import { registerUser } from '../../../../Api/apiService.js';
 import RoleSelector from "../RoleSelector/RoleSelector.jsx";
 import InputField from "../InputField/InputField.jsx";
+import SubmitButton from "../SubmitButton/SubmitButton.jsx";
 const RegisterModal = () => {
     const [selectedRole, setSelectedRole] = React.useState('Guest');
     const roles = ['Guest', 'Host'];
@@ -96,9 +97,12 @@ const RegisterModal = () => {
                 setselectedRoleFromArray={setSelectedRole}
             />
 
-            <button className="RegisterButton" onClick={handleRegister}>
-                Register
-            </button>
+            <SubmitButton
+            type="submit"
+            onClick={handleRegister}
+            text="Register">
+            </SubmitButton>
+
         </div>
     );
 };
