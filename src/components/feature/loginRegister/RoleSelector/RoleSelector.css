@@ -1,0 +1,45 @@
+
+.RoleSelector{
+
+    width: 90%;
+    height: 100%;
+    /*border-radius: 10px;*/
+    /*border: 1px solid #888888;*/
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+
+}
+.RoleSelectorButton {
+
+    width: 160px;
+    height: 45px;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins Light', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-width: 0px 0px 0px 0px;
+
+}
+
+.RoleSelectorButton.selected {
+    background-color: #ff5a5f;
+    color: white;
+}
+
+.RoleSelectorButton.selected:hover {
+    background-color: #ff5a5f;
+    color: white;
+}
+.RoleSelectorButton:hover {
+    background-color: #cecece;
+}
+
+.RoleSelectorButton:active{
+    transition: transform 0.2s ease; /* Smooth transition */
+
+    transform: scale(0.9); /* Shrinks the button to 90% of its size when clicked */
+
+}

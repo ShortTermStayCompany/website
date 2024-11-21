@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import './InputField.css';
+import './RoleSelector.css';
 
-const RoleSelector = ({ roles, selectedRole,setSelectedRole }) => (
+const RoleSelector = ({ rolesArray, selectedRoleFromArray,setselectedRoleFromArray }) => (
     <div className="RoleSelector">
-        {roles.map((role) => (
+        {rolesArray.map((role) => (
             <button
                 key={role}
-                className={`RoleSelectorButton ${selectedRole === role ? 'selected' : ''}`}
-                onClick={() => setSelectedRole(role)}
+                className={`RoleSelectorButton ${selectedRoleFromArray === role ? 'selected' : ''}`}
+                onClick={() => setselectedRoleFromArray(role)}
             >
                 {role}
             </button>

@@ -4,7 +4,7 @@ import './InputField.css';
 
 // eslint-disable-next-line react/prop-types
 const InputField = ({ type, placeholder, value, onChange, isValid, errorMessage }) => (
-    <div className="InputField">
+    <div className="inputField">
         <input
             className={`${isValid ? '' : 'fail'}`}
             type={type}
@@ -12,8 +12,12 @@ const InputField = ({ type, placeholder, value, onChange, isValid, errorMessage 
             value={value}
             onChange={onChange}
         />
-        {!isValid && <span className="error">{errorMessage}</span>}
-    </div>
+            {!isValid &&
+                <div className="errorContainer">
+                    <span className="error">{errorMessage}</span>
+                </div>
+            }
+                </div>
 );
 
 export default InputField;

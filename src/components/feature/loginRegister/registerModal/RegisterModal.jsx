@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import './RegisterModal.css';
 import { registerUser } from '../../../../Api/apiService.js';
-
+import RoleSelector from "../RoleSelector/RoleSelector.jsx";
+import InputField from "../InputField/InputField.jsx";
 const RegisterModal = () => {
     const [selectedRole, setSelectedRole] = React.useState('Guest');
     const roles = ['Guest', 'Host'];
@@ -29,6 +30,16 @@ const RegisterModal = () => {
     }, [name, email, password]);
 
     const handleRegister = async () => {
+        if (name.trim().length === 0) {
+            setNameValid(false);
+        }
+        if (email.trim().length === 0) {
+            setEmailValid(false);
+        }
+        if (password.trim().length === 0) {
+            setPasswordValid(false);
+        }
+
         if (nameValid && emailValid && passwordValid) {
             try {
                 const userData = {
@@ -43,52 +54,48 @@ const RegisterModal = () => {
                 console.error('Registration failed:', error);
             }
         } else {
+
             console.error('Validation errors exist');
         }
     };
 
     return (
         <div className="RegisterModal">
-            <input
-                className={`${nameValid ? '' : 'fail'}`}
+            <div>
+
+            </div>
+            <InputField
                 type="text"
                 placeholder="Name Surname"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                isValid={nameValid}
+                errorMessage="Enter Your Name!"
             />
-            {!nameValid && <span className="error">Enter Your Name!</span>}
 
-            <input
-                className={`${emailValid ? '' : 'fail'}`}
+            <InputField
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                isValid={emailValid}
+                errorMessage="Enter a valid Email Address"
             />
-            {!emailValid && <span className="error">Enter a valid Email Address</span>}
-
-            <input
-                className={`${passwordValid ? '' : 'fail'}`}
+            <InputField
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                isValid={passwordValid}
+                errorMessage="Enter a valid Password (8+ chars, letters & numbers)!"
             />
-            {!passwordValid && (
-                <span className="error">Enter a valid Password (8+ chars, letters & numbers)!</span>
-            )}
 
-            <div className="RoleSelector">
-                {roles.map((role) => (
-                    <button
-                        key={role}
-                        className={`RoleSelectorButton ${selectedRole === role ? 'selected' : ''}`}
-                        onClick={() => setSelectedRole(role)}
-                    >
-                        {role}
-                    </button>
-                ))}
-            </div>
+            <RoleSelector
+                rolesArray={roles}
+                selectedRoleFromArray={selectedRole}
+                setselectedRoleFromArray={setSelectedRole}
+            />
+
             <button className="RegisterButton" onClick={handleRegister}>
                 Register
             </button>

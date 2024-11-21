@@ -1,0 +1,36 @@
+.inputField {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputField input{
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Poppins Light', sans-serif;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.inputField input.fail{
+    border: 1px solid #ff5a5f;
+}
+
+.inputField input:focus{
+    outline: none;
+    border: rgb(161, 161, 161) 1px solid;
+}
+
+.errorContainer{
+    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.error{
+    font-weight: bold;
+    font-family: 'Poppins Light', sans-serif;
+    font-size: small;
+    position: absolute;
+    text-align: left;
+}
