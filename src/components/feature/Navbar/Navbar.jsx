@@ -1,16 +1,9 @@
 import React from 'react';
 import './Navbar.css';
 import SubmitButton from "../loginRegister/SubmitButton/SubmitButton.jsx";
-import RegisterButton from "../loginRegister/RegisterButton.jsx";
-
+import AccountMenu from "./AccountMenu/AccountMenu.jsx";
 
 const Navbar = () => {
-
-    const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
-
-    function openSelector() {
-        setIsSelectorOpen(!isSelectorOpen);
-    }
 
     return (
         <nav className="navbar">
@@ -23,16 +16,9 @@ const Navbar = () => {
                 <a href="#" className="navbar-link">Stays</a>
                 <a href="#" className="navbar-link">Experiences</a>
             </div>
-            <RegisterButton></RegisterButton>
             {/* Right Side */}
             <div className="navbar-right">
-                <div className="navbar-icon-group">
-                    <button className="navbar-menu-button" onClick={openSelector}>
-                        <span className="menu-icon">≡</span>
-                        <span className="profile-icon">👤</span>
-                    </button>
-
-                </div>
+                <AccountMenu />
             </div>
         </nav>
     );

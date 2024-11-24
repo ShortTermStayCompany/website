@@ -14,9 +14,27 @@ export const registerUser = async (userData) => {
             throw new Error('Failed to register user');
         }
 
-        return await response.json();
+        return await response;
     } catch (error) {
         console.error('Error during registration:', error);
         throw error;
     }
 };
+
+export const loginUser = async (userData) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to login');
+        }
+        return await response;
+    } catch (error) {
+        console.error('Error during login:', error);
+    }
+}

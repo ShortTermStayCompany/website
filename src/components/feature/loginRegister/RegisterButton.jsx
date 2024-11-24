@@ -2,7 +2,7 @@ import RegisterModal from "./registerModal/RegisterModal.jsx";
 import {useState} from "react";
 import './RegisterButton.css'
 
-const RegisterButton = () => {
+const RegisterButton = (onClick) => {
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
     const openRegisterModal = () => {

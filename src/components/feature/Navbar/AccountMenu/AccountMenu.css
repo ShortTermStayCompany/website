@@ -1,0 +1,88 @@
+
+/* Right Side */
+.account-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.AccountMenuIconGroup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.AccountMenuMenuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border: 1px solid #d3d3d3;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    gap: 8px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.AccountMenuMenuButton:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.AccountMenuMenuIcon {
+    font-size: 18px;
+}
+
+.AccountMenuProfileIcon {
+
+    font-size: 18px;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+
+    width: 26px;
+    height: 26px;
+    padding-left: 1px;
+    transition: background-color 0.2s ease;
+}
+
+.AccountMenuMenuButton:hover .AccountMenuProfileIcon {
+    background-color: #bfbfbf; /* Darker gray on hover */
+}
+
+.dropdown-modal {
+    /*padding: 12px;*/
+    border: 1px solid #d3d3d3;
+    border-radius: 13px;
+    width: 200px;
+    /*flex-direction: ;*/
+    position: absolute;
+    top: 65px; /* Adjust based on the navbar height */
+    right: 0px; /* Aligns it under the menu button */
+
+
+
+    background: white;
+
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    /*opacity: 0;*/
+    /*transform: translateY(-10px);*/
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+/*}*/
+}
+
+.dropdown-modal.hide {
+    opacity: 0;
+}
+
+
+.dropdown-modal[aria-hidden="false"] {
+    opacity: 1;
+    transform: translateY(0);
+}

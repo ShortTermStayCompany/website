@@ -17,7 +17,8 @@ const RegisterModal = ({onClose}) => {
     const [nameValid, setNameValid] = React.useState(true);
     const [emailValid, setEmailValid] = React.useState(true);
     const [passwordValid, setPasswordValid] = React.useState(true);
-
+    const [userRegistered, setUserRegistered] = React.useState(false);
+    const [showRegisterInfo, setShowRegisterInfo] = React.useState(false);
     // Validate input fields whenever their values change
     useEffect(() => {
         if (name.trim().length > 0) {
@@ -52,12 +53,30 @@ const RegisterModal = ({onClose}) => {
                     password: password,
                     role: selectedRole.toLowerCase(),
                 };
-                const result = await registerUser(userData);
-                console.log('User registered successfully:', result);
-            } catch (error) {
+                const response = await registerUser(userData);
+                // Check for success based on status code or response content
+                if (response.status === 201) { // Example for a "Created" response
+                    setUserRegistered(true);
+                    setShowRegisterInfo(true);
+                    console.log(response.status);
+                    console.log(response.json());
+                } else {
+                    console.log('user already exists!');
+
+                    setUserRegistered(false);
+                    setShowRegisterInfo(true);
+
+                    console.log(response.status)
+                    console.error('Registration failed with status:', response.status);
+                }            } catch (error) {
+                setUserRegistered(false);
+                setShowRegisterInfo(true);
+
                 console.error('Registration failed:', error);
             }
         } else {
+            setUserRegistered(false);
+            setShowRegisterInfo(true);
 
             console.error('Validation errors exist');
         }
@@ -99,9 +118,14 @@ const RegisterModal = ({onClose}) => {
                 setselectedRoleFromArray={setSelectedRole}
             />
 
+            {showRegisterInfo &&
+                <span className={userRegistered ? "registerFeedback" : "registerFeedbackFail"}>
+                {userRegistered ? 'User Registered' : 'Registeration Failed'}
+            </span>
+            }
             <SubmitButton
-            onClick={handleRegister}
-            text="Register">
+                onClick={handleRegister}
+                text="Register">
             </SubmitButton>
 
         </div>
