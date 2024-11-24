@@ -25,7 +25,7 @@ const LoginModal = ({onClose}) => {
         if (userLoggedIn) {
             onClose()
         }
-    }, [email, password]);
+    }, [email, password, userLoggedIn]);
 
     const userLoginProtocol = (responseData) => {
         console.log(responseData.access_token);
