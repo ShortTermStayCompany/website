@@ -6,12 +6,13 @@ import CloseButton from "../CloseButton/CloseButton.jsx";
 import {loginUser} from "../../../../Api/apiService.js";
 
 
-const LoginModal = () => {
+const LoginModal = ({onClose}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
     useEffect(() => {
         if (email.trim().length > 0) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,36 +22,80 @@ const LoginModal = () => {
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
             setPasswordValid(passwordRegex.test(password));
         }
+        if (userLoggedIn) {
+            onClose()
+        }
     }, [email, password]);
-    const handleLogin = () => {
+
+    const userLoginProtocol = (responseData) => {
+        console.log(responseData.access_token);
+    }
+    const handleLogin = async () => {
 
         email.trim().length === 0 ? setEmailValid(false) : null;
+        password.trim().length === 0 ? setPasswordValid(false) : null;
 
-        if (email.trim().length > 0 && password.trim().length > 0) {
-            if (emailValid && passwordValid) {
-                console.log('blabla')
+        if (emailValid && passwordValid) {
+            try {
+                const loginData = {
+                    email: email,
+                    password: password,
+                }
+                const response = await loginUser(loginData);
+                const responseData = await response.json(); // Parse the JSON data
+
+                if (response.ok) {
+                    console.log("login success");
+                    console.log(response);
+                    console.log(response.status);
+                    console.log(response.json());
+                    const accessToken = responseData.access_token; // Extract the token
+                    const user = responseData.user; // Extract user details if needed
+                    console.log("Access Token:", accessToken);
+                    console.log("User Info:", user);
+
+                    // Store the token in localStorage or AsyncStorage (for React Native)
+                    localStorage.setItem('accessToken', accessToken); // For web apps
+                    // AsyncStorage.setItem('accessToken', accessToken); // For React Native
+                    setUserLoggedIn(true);
+                    userLoginProtocol(responseData)
+
+                    // Use the token in your app as needed
+                }
+                else {
+                    console.log("login failed");
+
+                    setUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.log(error);
+                setUserLoggedIn(false);
 
             }
+
         }
-        else (
-            console.log('blabla')
-        )
+
     }
     return (
         <div className="loginModal">
-            <CloseButton></CloseButton>
+            <CloseButton onClick={onClose}></CloseButton>
             <div className="inputField">
                 <InputField
-                    isValid={email}
+                    isValid={emailValid}
                     placeholder={"Email"}
+                    type={email}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    errorMessage="Enter a valid Email Address"
                 ></InputField>
                 <InputField
-                    isValid={password}
+                    isValid={passwordValid}
+                    type={password}
                     placeholder={"Password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    errorMessage="Enter a valid Password (8+ chars, letters & numbers)!"
+
                 ></InputField>
             </div>
 

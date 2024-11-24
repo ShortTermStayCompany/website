@@ -8,6 +8,7 @@ const AccountMenu = () => {
     const [isSelectorOpen, setIsSelectorOpen] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const [closeButtonClicked, setCloseButtonClicked] = useState(false);
     const dropdownRef = useRef();
 
     const handleLoginModalOpen = () => {
@@ -37,11 +38,20 @@ const AccountMenu = () => {
     };
 
     useEffect(() => {
+        if (closeButtonClicked) {
+            setIsSelectorOpen(false); // Close the dropdown when clicking outside
+            setIsLoginModalOpen(false);
+            setIsRegisterModalOpen(false);
+            console.log('asdasdasd')
+            setCloseButtonClicked(false)
+        }
+        console.log('bbbbb')
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [closeButtonClicked]); // ok so this is the part where you input the variables that execute this useEffect when they change
 
     return (
         <div className="account-menu" ref={dropdownRef}>
@@ -66,10 +76,18 @@ const AccountMenu = () => {
 
                         </div>
                         {isLoginModalOpen && (
-                            <LoginModal></LoginModal>
+                            <LoginModal
+                                // onClose={setCloseButtonClicked(true)} When this line executes, setCloseButtonClicked(true) is called immediately, not when the modal closes
+                                onClose={() => setCloseButtonClicked(true)}
+
+                            ></LoginModal>
                         )}
                         {isRegisterModalOpen && (
-                            <RegisterModal />
+                            <RegisterModal
+                                // onClose={setCloseButtonClicked(true)}
+                                onClose={() => setCloseButtonClicked(true)}
+
+                            > </RegisterModal>
 
                         )}
                     </div>
