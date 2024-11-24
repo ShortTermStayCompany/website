@@ -1,15 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import RegisterButton from "../../loginRegister/RegisterButton.jsx";
 import './AccountMenu.css';
+import RegisterModal from "../../loginRegister/registerModal/RegisterModal.jsx";
+import LoginModal from "../../loginRegister/loginModal/loginModal.jsx";
 
 const AccountMenu = () => {
     const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const dropdownRef = useRef();
+
+    const handleLoginModalOpen = () => {
+        setIsLoginModalOpen(!isLoginModalOpen); // Open the login modal
+        isRegisterModalOpen ? setIsRegisterModalOpen(false) : null;
+    };
+
+    const handleRegisterModalOpen = () => {
+        setIsRegisterModalOpen(!isRegisterModalOpen); // Open the register modal
+        isLoginModalOpen? setIsLoginModalOpen(false) : null;
+    };
 
     const toggleSelector = () => {
         setIsSelectorOpen(!isSelectorOpen);
     };
-
 
     const handleClickOutside = (event) => {
         if (
@@ -17,6 +30,9 @@ const AccountMenu = () => {
             !dropdownRef.current.contains(event.target)
         ) {
             setIsSelectorOpen(false); // Close the dropdown when clicking outside
+            setIsLoginModalOpen(false);
+            setIsRegisterModalOpen(false);
+
         }
     };
 
@@ -26,11 +42,6 @@ const AccountMenu = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-
-    function handleHideLogic() {
-
-    }
 
     return (
         <div className="account-menu" ref={dropdownRef}>
@@ -45,18 +56,25 @@ const AccountMenu = () => {
 
                 {isSelectorOpen && (
                     <div className="dropdown-modal">
-                        <button className="dropdown-button">Login</button>
-                        <div onClick={handleHideLogic}>
-                            <RegisterButton onClick={() => setIsSelectorOpen(!isSelectorOpen)}
-                                            // textValue={'Register'}
-                            />
+                        <div onClick={handleLoginModalOpen}>
+                            <RegisterButton modalType={'LoginModal'} />
+
                         </div>
 
+                        <div onClick={handleRegisterModalOpen}>
+                            <RegisterButton modalType={'RegisterModal'} />
+
+                        </div>
+                        {isLoginModalOpen && (
+                            <LoginModal></LoginModal>
+                        )}
+                        {isRegisterModalOpen && (
+                            <RegisterModal />
+
+                        )}
                     </div>
                 )}
             </div>
-
-
         </div>
     );
 };
