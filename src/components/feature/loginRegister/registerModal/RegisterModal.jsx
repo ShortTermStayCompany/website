@@ -32,6 +32,7 @@ const RegisterModal = ({onClose}) => {
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
             setPasswordValid(passwordRegex.test(password));
         }
+        setShowRegisterInfo(false);
     }, [name, email, password]);
 
     const handleRegister = async () => {
@@ -54,24 +55,21 @@ const RegisterModal = ({onClose}) => {
                     role: selectedRole.toLowerCase(),
                 };
                 const response = await registerUser(userData);
-                // Check for success based on status code or response content
-                if (response.status === 201) { // Example for a "Created" response
+
+                if ("User registered successfully" === response.message) { // SINCE I CANT CHECK THE .OK or .status == 201
                     setUserRegistered(true);
                     setShowRegisterInfo(true);
-                    console.log(response.status);
-                    console.log(response.json());
                 } else {
                     console.log('user already exists!');
 
                     setUserRegistered(false);
                     setShowRegisterInfo(true);
 
-                    console.log(response.status)
                     console.error('Registration failed with status:', response.status);
                 }            } catch (error) {
                 setUserRegistered(false);
                 setShowRegisterInfo(true);
-
+                console.log(error);
                 console.error('Registration failed:', error);
             }
         } else {

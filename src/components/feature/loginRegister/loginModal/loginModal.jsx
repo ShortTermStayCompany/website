@@ -4,9 +4,11 @@ import InputField from "../InputField/InputField.jsx";
 import SubmitButton from "../SubmitButton/SubmitButton.jsx";
 import CloseButton from "../CloseButton/CloseButton.jsx";
 import {loginUser} from "../../../../Api/apiService.js";
+import {useUser} from "../../../../context/UserContext.jsx";
 
 
 const LoginModal = ({onClose}) => {
+    const { login } = useUser(); // Get the login function from context
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,9 +29,6 @@ const LoginModal = ({onClose}) => {
         }
     }, [email, password, userLoggedIn]);
 
-    const userLoginProtocol = (responseData) => {
-        console.log(responseData.access_token);
-    }
     const handleLogin = async () => {
 
         email.trim().length === 0 ? setEmailValid(false) : null;
@@ -42,27 +41,32 @@ const LoginModal = ({onClose}) => {
                     password: password,
                 }
                 const response = await loginUser(loginData);
-                const responseData = await response.json(); // Parse the JSON data
+                // const responseData = await response.json; // Parse the JSON data
 
-                if (response.ok) {
-                    console.log("login success");
-                    console.log(response);
-                    console.log(response.status);
-                    console.log(response.json());
-                    const accessToken = responseData.access_token; // Extract the token
-                    const user = responseData.user; // Extract user details if needed
-                    console.log("Access Token:", accessToken);
-                    console.log("User Info:", user);
+                if (response.message === "User logged in successfully") {
+                    try {
+                        const { access_token, user } = response; // since the repsonse has 3 fields; message, access_token, user(info about user)
+                        login({
+                            accessToken: access_token,
+                            ...user // Include id, name, email
+                        }); // Update the UserContext
 
-                    // Store the token in localStorage or AsyncStorage (for React Native)
-                    localStorage.setItem('accessToken', accessToken); // For web apps
-                    // AsyncStorage.setItem('accessToken', accessToken); // For React Native
-                    setUserLoggedIn(true);
-                    userLoginProtocol(responseData)
+                        const accessToken = response.access_token; // Extract the token
 
-                    // Use the token in your app as needed
+                        // Store the token in localStorage or AsyncStorage (for React Native)
+                        localStorage.setItem('accessToken', accessToken); // For web apps
+                        // AsyncStorage.setItem('accessToken', accessToken); // For React Native
+                        setUserLoggedIn(true);
+
+                        // Use the token in your app as needed
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
                 else {
+                    console.log(response.ok)
+                    console.log(response)
+                    // console.log(responseData);
                     console.log("login failed");
 
                     setUserLoggedIn(false);
