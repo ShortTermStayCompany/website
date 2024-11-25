@@ -55,3 +55,15 @@ export const get_listings = async (page, perPage) => {
 
     }
 }
+
+export const book_listing = async (listingId, dates) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/listings/${listingId}/book`, {
+            startDate: dates.start.toISOString(),
+            endDate: dates.end.toISOString(),
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

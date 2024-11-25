@@ -1,26 +1,92 @@
 .loginModal {
     position: fixed; /* Makes the div independent of other components */
-    width: 30%;
-
-
-    top: 50%;        /* Center vertically */
-    left: 50%;       /* Center horizontally */
-    transform: translate(-50%, -50%); /* Offset by 50% of its width and height */
-    padding: 20px;   /* Optional: Add some padding */
-    border-radius: 10px;
-    border: #888888 3px solid;
-    display: flex;       /* Enable Flexbox */
-    flex-direction: column; /* Align children in a row (default, but explicitly stated) */
-    gap: 30px;           /* Optional: Add spacing between items */
-    justify-content: center; /* Optional: Center items horizontally */
-    align-items: center;    /* Optional: Center items vertically */
+    display: flex; /* Enables Flexbox */
+    flex-direction: column; /* Align children vertically */
+    gap: 20px; /* Adds spacing between input fields and buttons */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    width: 320px; /* Consistent width */
+    min-height: 320px; /* Ensures enough space for content */
+    background-color: #ffffff; /* White background */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Keeps the modal perfectly centered */
+    border-radius: 12px; /* Smooth rounded corners */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Adds space inside the modal */
+    z-index: 1000; /* Ensure it's on top of other content */
+    animation: fadeIn 0.3s ease-out; /* Smooth fade-in animation */
 }
 
-.loginModal input{
+.LoginModal input:focus {
+    border-color: #FF385C; /* Primary red on focus */
+    box-shadow: 0 0 8px rgba(255, 56, 92, 0.25); /* Subtle focus effect */
+}
+
+/* Buttons */
+.LoginModal button {
+    width: 100%; /* Full width */
     padding: 12px;
-    width: 80%;
-    height: 110%;
-    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white; /* White text */
+    background-color: #FF385C; /* Primary red */
+    border: none;
+    border-radius: 25px; /* Rounded button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+    font-family: "Poppins", sans-serif;
+    box-shadow: 0px 4px 10px rgba(255, 56, 92, 0.3); /* Subtle shadow */
+}
 
+.LoginModal button:hover {
+    background-color: #FF647C; /* Lighter red on hover */
+    transform: translateY(-3px); /* Lift effect */
+}
 
+.LoginModal button:active {
+    transform: translateY(1px); /* Button press effect */
+}
+
+/* Close Button */
+.LoginModal .CloseButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #6c757d; /* Neutral gray */
+    transition: color 0.3s ease; /* Smooth hover */
+}
+
+.LoginModal .CloseButton:hover {
+    color: #FF385C; /* Primary red on hover */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .LoginModal {
+        width: 90%; /* Adjust modal width for smaller screens */
+        min-height: auto; /* Flexible height */
+        padding: 15px; /* Adjust padding */
+    }
+
+    .LoginModal input,
+    .LoginModal button {
+        width: 100%; /* Full width for inputs and buttons */
+    }
 }
