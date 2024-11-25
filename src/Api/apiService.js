@@ -1,45 +1,3 @@
-// //
-//
-// const API_BASE_URL = 'https://stsc-a3hefkewerhsfads.uaenorth-01.azurewebsites.net';
-//
-// export const registerUser = async (userData) => {
-//     try {
-//         const response = await fetch(`${API_BASE_URL}/auth/users`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(userData),
-//         });
-//
-//         if (!response.ok) {
-//             throw new Error('Failed to register user');
-//         }
-//
-//         return await response;
-//     } catch (error) {
-//         console.error('Error during registration:', error);
-//         throw error;
-//     }
-// };
-//
-// export const loginUser = async (userData) => {
-//     try {
-//         const response = await fetch(`${API_BASE_URL}/auth/login`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(userData),
-//         });
-//         if (!response.ok) {
-//             throw new Error('Failed to login');
-//         }
-//         return await response;
-//     } catch (error) {
-//         console.error('Error during login:', error);
-//     }
-// }
 import axios from "axios";
 
 const API_BASE_URL = 'https://stsc-a3hefkewerhsfads.uaenorth-01.azurewebsites.net';
@@ -74,3 +32,26 @@ export const loginUser = async (userData) => {
     }
 };
 
+// export const logoutUser = async (userData) => {
+//     return await axios.post(`${API_BASE_URL}/auth/logout`, userData, {
+//         headers: {
+//             'Content-Type': 'application/json',
+//
+//         }
+//     })
+// }
+
+export const get_listings = async (page, perPage) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/listing/listings`, {
+            params: { page, perPage },
+            headers: { 'Content-Type': 'application/json' },
+        }); // generated URL /listing/listings?page=1&per_page=10
+        console.log('LOG API 1, RETURNING LISTINGS DATA', response.data );
+        return response.data;
+    } catch (error) {
+        console.error('Error during get_listings:', error.response?.data || error.message);
+        throw error; // Throw the error to handle it in the calling function
+
+    }
+}

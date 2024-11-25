@@ -22,6 +22,8 @@ export const UserProvider = ({ children }) => {
         setUser(userData); // Update the user state
         localStorage.setItem("accessToken", userData.accessToken); // Persist token
         localStorage.setItem("user", JSON.stringify(userData)); // Persist user details
+        console.log('LOG 50');
+        console.log(userData);
     };
 
     // Logout function
