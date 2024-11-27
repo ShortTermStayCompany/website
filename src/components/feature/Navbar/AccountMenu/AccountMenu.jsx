@@ -1,15 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import RegisterButton from "../../loginRegister/RegisterButton.jsx";
 import './AccountMenu.css';
 import RegisterModal from "../../loginRegister/registerModal/RegisterModal.jsx";
 import LoginModal from "../../loginRegister/loginModal/loginModal.jsx";
+import {useUser} from "../../../../context/UserContext.jsx";
 
 const AccountMenu = () => {
+    const {user} = useUser();
+    const {logout} = useUser();
     const [isSelectorOpen, setIsSelectorOpen] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [closeButtonClicked, setCloseButtonClicked] = useState(false);
     const dropdownRef = useRef();
+
 
     const handleLoginModalOpen = () => {
         setIsLoginModalOpen(!isLoginModalOpen); // Open the login modal
@@ -36,6 +40,7 @@ const AccountMenu = () => {
 
         }
     };
+
 
     useEffect(() => {
         if (closeButtonClicked) {
@@ -64,17 +69,27 @@ const AccountMenu = () => {
                     <span className="AccountMenuProfileIcon">👤</span>
                 </button>
 
-                {isSelectorOpen && (
+                {isSelectorOpen &&(
                     <div className="dropdown-modal">
-                        <div onClick={handleLoginModalOpen}>
-                            <RegisterButton modalType={'LoginModal'} />
+                        {!user && (
+                            <>
+                                <div onClick={handleLoginModalOpen}>
+                                    <RegisterButton modalType={'LoginModal'}/>
 
-                        </div>
+                                </div>
+                                <div onClick={handleRegisterModalOpen}>
+                                    <RegisterButton modalType={'RegisterModal'}/>
 
-                        <div onClick={handleRegisterModalOpen}>
-                            <RegisterButton modalType={'RegisterModal'} />
+                                </div>
+                            </>
+                        )}
+                        {user && (
+                            <div onClick={logout}>
+                                <RegisterButton modalType={'Log outModal'}/>
+                            </div>
+                        )}
 
-                        </div>
+
                         {isLoginModalOpen && (
                             <LoginModal
                                 // onClose={setCloseButtonClicked(true)} When this line executes, setCloseButtonClicked(true) is called immediately, not when the modal closes
