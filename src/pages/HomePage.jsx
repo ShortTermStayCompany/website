@@ -9,11 +9,6 @@ const HomePage = () => {
         <div>
             <Navbar></Navbar>
             <ListingCard></ListingCard>
-            {!userLogged && (
-                <></>
-            )
-
-            }
         </div>
 
 )

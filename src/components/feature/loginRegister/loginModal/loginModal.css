@@ -23,21 +23,7 @@
     box-shadow: 0 0 8px rgba(255, 56, 92, 0.25); /* Subtle focus effect */
 }
 
-/* Buttons */
-.LoginModal button {
-    width: 100%; /* Full width */
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white; /* White text */
-    background-color: #FF385C; /* Primary red */
-    border: none;
-    border-radius: 25px; /* Rounded button */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
-    font-family: "Poppins", sans-serif;
-    box-shadow: 0px 4px 10px rgba(255, 56, 92, 0.3); /* Subtle shadow */
-}
+
 
 .LoginModal button:hover {
     background-color: #FF647C; /* Lighter red on hover */

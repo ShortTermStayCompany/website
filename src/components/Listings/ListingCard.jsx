@@ -1,119 +1,25 @@
-// import { useEffect, useState } from "react";
-// import { get_listings } from "../../Api/apiService.js";
-// import "./ListingCard.css"; // Import the CSS file
-//
-// const ListingCard = () => {
-//     const [listings, setListings] = useState(null);
-//     const [meta, setMeta] = useState(null); // pagination data from listings
-//     const [loading, setLoading] = useState(false);
-//     const [loadingFailed, setLoadingFailed] = useState(false);
-//     const [page, setPage] = useState(1);
-//     const [perPage, setPerPage] = useState(10);
-//
-//     const fetchListings = async (page, perPage) => {
-//         setLoading(true);
-//         let current_page = page
-//         let hasMorePages = true;
-//         while (hasMorePages) {
-//             try {
-//                 console.error('Log LC-1: ')
-//                 const response = await get_listings(page, perPage);
-//                 console.log(response);
-//                 console.log("Full response:", response);
-//                 setListings(response.data); // listings
-//                 setMeta(response.meta); // pagination info
-//
-//
-//                 console.log('Response data',response.data);
-//                 console.log('next page exist?',response.meta.has_next);
-//                 console.log(response.meta)
-//                 console.log(meta)
-//                 console.log(meta)
-//                 console.log(meta)
-//                 console.log(meta)
-//                 console.log(meta)
-//
-//
-//             } catch (error) {
-//                 console.error('Log LC-2: ')
-//                 console.error(error);
-//                 console.log("Loading listings failed");
-//                 setLoadingFailed(true);
-//                 return
-//             } finally {
-//                 console.error('Log LC-3: ')
-//                 console.log("Set Loading false");
-//                 setLoading(false);
-//                 setLoadingFailed(false);
-//                 hasMorePages = meta.has_next
-//
-//
-//             }
-//
-//         }
-//         // hasMorePages = 0;
-//
-//         setLoading(false);
-//
-//     };
-//
-//     useEffect(() => {
-//         fetchListings(page, perPage);
-//     }, []);
-//
-//     return (
-//         <div className="listing-wrapper">
-//             {loading && (
-//                 <div className="loading">
-//                     <span>Loading...</span>
-//                 </div>
-//             )}
-//             {loadingFailed && (
-//                 <div className="error">Backend is sleeping atm(due to free tier web app on azure i guess),  keep refreshing the page to activate the backend, or contact me since i may have turned it off </div>
-//             )}
-//             <div className="listing-container">
-//                 {listings &&
-//                     listings.map((listing) => (
-//                         <div key={listing.id} className="listing-card">
-//                             <h3 className="listing-title">{listing.title}</h3>
-//                             <div className="listing-details">
-//                                 <p><strong>From:</strong> {listing.availableFrom}</p>
-//                                 <p><strong>To:</strong> {listing.availableTo}</p>
-//                                 <p><strong>Average Rating:</strong> {listing.averageRating}</p>
-//                                 <p><strong>City:</strong> {listing.city}</p>
-//                                 <p><strong>Country:</strong> {listing.country}</p>
-//                                 <p><strong>Max Number of People:</strong> {listing.numberOfPeople}</p>
-//                                 <p><strong>Host ID:</strong> {listing.user_id}</p>
-//                                 <p><strong>Booked Dates</strong> {listing.unavailableDates}</p>
-//                             </div>
-//                             <button>book listing</button>
-//                         </div>
-//                     ))}
-//             </div>
-//         </div>
-//     );
-// };
-//
-// export default ListingCard;
-// ListingCard.js
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import DatePicker from "react-datepicker";
-import { get_listings, book_listing } from "../../Api/apiService.js"; // Import book_listing
+import { get_listings, insert_booking } from "../../Api/apiService.js"; // Import book_listing
 import "react-datepicker/dist/react-datepicker.css"; // Import React DatePicker CSS
 import "./ListingCard.css"; // Import the CSS file
+import {useUser} from "../../context/UserContext.jsx";
+import { format } from "date-fns"; // Import date-fns for formatting
 
 // Set the root element for accessibility
 Modal.setAppElement("#root"); // Ensure your root element has id="root"
 
 const ListingCard = () => {
+    const {user} = useUser();
     const [listings, setListings] = useState(null);
     const [meta, setMeta] = useState(null); // pagination data from listings
     const [loading, setLoading] = useState(false);
     const [loadingFailed, setLoadingFailed] = useState(false);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10);
-
+    const [userNames, setUserNames] = useState(""); // To store names as a single comma-separated string
+    const [numberOfPeople, setNumberOfPeople] = useState(0); // To store the number of people
     // Modal state
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedListing, setSelectedListing] = useState(null);
@@ -168,8 +74,30 @@ const ListingCard = () => {
 
     // Handle Booking
     const handleBooking = async () => {
+        const token = user?.accessToken;
+
+        if (!token) {
+            setBookingError("User is not authenticated. Please log in first.");
+            return;
+        }
         if (!selectedDates.start || !selectedDates.end) {
             setBookingError("Please select both start and end dates.");
+            return;
+        }
+
+        if (!userNames || !numberOfPeople) {
+            setBookingError("Please fill out all fields.");
+            return;
+        }
+
+        const namesArray = userNames.split(",").map((name) => name.trim());
+        if (namesArray.length !== numberOfPeople) {
+            setBookingError(`Number of names must match the amount of people (${numberOfPeople}).`);
+            return;
+        }
+
+        if (numberOfPeople > selectedListing.numberOfPeople) {
+            setBookingError(`Maximum number of people allowed is ${selectedListing.numberOfPeople}.`);
             return;
         }
 
@@ -177,15 +105,26 @@ const ListingCard = () => {
         setBookingError(null);
 
         try {
-            // Assuming you have a booking API that takes listing ID and dates
-            const response = await book_listing(selectedListing.id, selectedDates);
+            const bookingData = {
+                listing_id: selectedListing.id,
+                dateFrom: format(selectedDates.start, "yyyy-MM-dd"), // Format as YYYY-MM-DD
+                dateTo: format(selectedDates.end, "yyyy-MM-dd"), // Format as YYYY-MM-DD
+                namesOfPeople: namesArray,
+                amountOfPeople: numberOfPeople,
+            };
+
+            console.log(bookingData);
+
+            const response = await insert_booking(bookingData, token);
+
             console.log("Booking successful:", response);
             setBookingSuccess(true);
-            // Optionally, refresh the listings to update booked dates
+
+            // Optionally refresh the listings to reflect updated availability
             fetchListings(page, perPage);
         } catch (error) {
             console.error("Booking failed:", error);
-            setBookingError("Failed to book listing. Please try again.");
+            setBookingError(error.message); // Display the backend error message
         } finally {
             setBookingLoading(false);
         }
@@ -215,7 +154,7 @@ const ListingCard = () => {
                                 <p><strong>Country:</strong> {listing.country}</p>
                                 <p><strong>Max Number of People:</strong> {listing.numberOfPeople}</p>
                                 <p><strong>Host ID:</strong> {listing.user_id}</p>
-                                <p><strong>Booked Dates:</strong> {listing.unavailableDates.join(", ")}</p>
+                                {/*<p><strong>Booked Dates:</strong> {listing.unavailableDates.join(", ")}</p>*/}
                             </div>
                             <button onClick={() => openModal(listing)}>Book Listing</button>
                         </div>
@@ -233,22 +172,57 @@ const ListingCard = () => {
                 >
                     <h2>{selectedListing.title}</h2>
                     <div className="modal-content">
-                        <DatePicker
-                            selected={selectedDates.start}
-                            onChange={(dates) => {
-                                const [start, end] = dates;
-                                setSelectedDates({ start, end });
-                            }}
-                            startDate={selectedDates.start}
-                            endDate={selectedDates.end}
-                            selectsRange
-                            inline
-                            minDate={new Date(selectedListing.availableFrom)}
-                            maxDate={new Date(selectedListing.availableTo)}
-                            excludeDates={selectedListing.unavailableDates.map(date => new Date(date))}
-                         showMonthYearDropdown/>
+                        {/* Display Error or Success Messages */}
                         {bookingError && <div className="booking-error">{bookingError}</div>}
                         {bookingSuccess && <div className="booking-success">Booking successful!</div>}
+
+                        {/* Modal Body: Calendar and Inputs */}
+                        <div className="modal-body">
+                            {/* Calendar Section */}
+                            <div className="calendar-section">
+                                <DatePicker
+                                    selected={selectedDates.start}
+                                    onChange={(dates) => {
+                                        const [start, end] = dates;
+                                        setSelectedDates({ start, end });
+                                    }}
+                                    startDate={selectedDates.start}
+                                    endDate={selectedDates.end}
+                                    selectsRange
+                                    inline
+                                    minDate={new Date(selectedListing.availableFrom)}
+                                    maxDate={new Date(selectedListing.availableTo)}
+                                    excludeDates={selectedListing.unavailableDates.map(date => new Date(date))}
+                                    showMonthYearDropdown
+                                />
+                            </div>
+
+                            {/* Input Section */}
+                            <div className="input-section">
+                                <div className="user-inputs">
+                                    <label>
+                                        Names of People (comma-separated):
+                                        <input
+                                            type="text"
+                                            placeholder="Enter names separated by ','"
+                                            onChange={(e) => setUserNames(e.target.value)}
+                                        />
+                                    </label>
+                                    <label>
+                                        Amount of People:
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max={selectedListing.numberOfPeople}
+                                            placeholder={`Max: ${selectedListing.numberOfPeople}`}
+                                            onChange={(e) => setNumberOfPeople(Number(e.target.value))}
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Modal Actions */}
                         <div className="modal-actions">
                             <button onClick={handleBooking} disabled={bookingLoading}>
                                 {bookingLoading ? "Booking..." : "Confirm Booking"}
@@ -259,6 +233,9 @@ const ListingCard = () => {
                         </div>
                     </div>
                 </Modal>
+
+
+
             )}
         </div>
     );

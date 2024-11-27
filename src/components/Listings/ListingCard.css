@@ -281,3 +281,66 @@ button:focus {
         padding: 8px 16px;
     }
 }
+/* Modal Body: Flexbox to Align Calendar and Inputs */
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Calendar Section */
+.calendar-section {
+    flex: 1; /* Take up space for the calendar */
+}
+
+/* Input Section */
+.input-section {
+    flex: 1; /* Take up equal space as the calendar */
+}
+
+/* Input Fields Styling */
+.user-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Add spacing between labels */
+}
+
+.user-inputs label {
+    font-size: 14px;
+    color: #333;
+}
+
+.user-inputs input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+    font-size: 14px;
+    box-shadow: var(--box-shadow-default);
+    transition: border-color var(--transition-speed);
+}
+
+.user-inputs input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.booking-error {
+    color: var(--error-color);
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.booking-success {
+    color: var(--success-color);
+    background-color: #e6ffe6;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 15px;
+}

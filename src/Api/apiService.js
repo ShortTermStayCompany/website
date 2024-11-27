@@ -1,6 +1,8 @@
 import axios from "axios";
+import {useUser} from "../context/UserContext.jsx";
 
 const API_BASE_URL = 'https://stsc-a3hefkewerhsfads.uaenorth-01.azurewebsites.net';
+// const API_BASE_URL = 'http://127.0.0.1:5000';
 
 // Register User
 export const registerUser = async (userData) => {
@@ -32,14 +34,6 @@ export const loginUser = async (userData) => {
     }
 };
 
-// export const logoutUser = async (userData) => {
-//     return await axios.post(`${API_BASE_URL}/auth/logout`, userData, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//
-//         }
-//     })
-// }
 
 export const get_listings = async (page, perPage) => {
     try {
@@ -56,14 +50,38 @@ export const get_listings = async (page, perPage) => {
     }
 }
 
-export const book_listing = async (listingId, dates) => {
+
+export const insert_booking = async (bookingData, token) => {
+    if (!token) {
+        throw new Error("Authorization token is missing.");
+    }
+
     try {
-        const response = await axios.post(`${API_BASE_URL}/listings/${listingId}/book`, {
-            startDate: dates.start.toISOString(),
-            endDate: dates.end.toISOString(),
-        });
+        const response = await axios.post(
+            `${API_BASE_URL}/booking/insert_booking`,
+            bookingData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        if (response.status !== 201) {
+            throw new Error(response.data.message || "Failed to insert booking");
+        }
+
         return response.data;
     } catch (error) {
-        throw error;
+        console.log(error)
+        if (error.response) {
+            console.error('Error during insert booking:', error.response?.data || error.message);
+            const backendMessage = error.response.data.message;
+            console.log(backendMessage);
+            throw new Error(backendMessage || "An unexpected error occurred.");
+        } else {
+            throw new Error("Network error or server is unreachable.");
+        }
     }
 };

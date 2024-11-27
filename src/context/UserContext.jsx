@@ -7,6 +7,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
     // User state
     const [user, setUser] = useState(null);
+    const [userID, setUserID] = useState(null);
     const [role, setRole] = useState('guest'); // Default role is 'guest'
 
     // Load user from localStorage when the app starts
@@ -17,8 +18,13 @@ export const UserProvider = ({ children }) => {
             const parsedUser = JSON.parse(savedUser);
             setUser({ ...parsedUser, accessToken: savedToken });
             setRole(parsedUser.role || 'guest'); // Set role from saved user or default to 'guest'
+            setUserID(parsedUser.id);
+            console.log("User loaded from storage:", parsedUser);
+            console.log("Access token loaded:", savedToken);
+        } else {
+            console.log("No user or token found in localStorage");
         }
-    }, []);
+    }, []); // This runs once when the UserProvider is mounted
 
     // Login function
     const login = (userData) => {
@@ -38,7 +44,7 @@ export const UserProvider = ({ children }) => {
 
     // Provide user state, role, and actions
     return (
-        <UserContext.Provider value={{ user, role, login, logout }}>
+        <UserContext.Provider value={{ user, role, userID, login, logout }}>
             {children}
         </UserContext.Provider>
     );

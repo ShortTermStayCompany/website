@@ -85,7 +85,6 @@ const LoginModal = ({onClose}) => {
     return (
         <div className="loginModal">
             <CloseButton onClick={onClose}></CloseButton>
-            <div className="inputField">
                 <InputField
                     isValid={emailValid}
                     placeholder={"Email"}
@@ -103,7 +102,6 @@ const LoginModal = ({onClose}) => {
                     errorMessage="Enter a valid Password (8+ chars, letters & numbers)!"
 
                 ></InputField>
-            </div>
 
 
                 <SubmitButton text={"Login"} onClick={handleLogin} />

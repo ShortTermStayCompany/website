@@ -1,53 +1,69 @@
 /* General Navbar Styling */
 .navbar {
-    border-radius: 13px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
     background-color: white;
-
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-    font-family: "Poppins", serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
     position: sticky;
-    /*top: 0;*/
+    top: 0;
     z-index: 1000;
+    border-radius: 12px;
     margin-bottom: 20px;
 }
 
-
-.navbar-brand {
-    font-size: 18px;
+/* Navbar Logo */
+.navbar-logo {
+    font-size: 20px;
     font-weight: bold;
     color: #FF385C;
     text-transform: lowercase;
+    cursor: pointer;
+}
+
+.navbar-brand {
+    color: #FF385C;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #D92E50; /* Slightly darker shade of red */
 }
 
 /* Navigation Links */
 .navbar-links {
-    border: 1px solid red;
     display: flex;
     gap: 20px;
+    align-items: center;
 }
 
 .navbar-link {
-
     text-decoration: none;
     font-size: 16px;
     color: #484848;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .navbar-link:hover {
-    color: #FF385C; /* Airbnb red on hover */
+    color: #FF385C; /* Airbnb Red */
     font-weight: bold;
-
+    transform: translateY(-2px);
 }
 
 .navbar-link.active {
     font-weight: bold;
-    color: black;
+    color: #000000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
 /* Right Side */
@@ -57,47 +73,62 @@
     gap: 20px;
 }
 
-.navbar-icon-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-}
-
+/* Account Menu Button */
 .navbar-menu-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px 10px;
-    border: 1px solid #d3d3d3;
+    padding: 8px 15px;
+    border: 1px solid #dcdcdc;
     border-radius: 20px;
     background-color: white;
     cursor: pointer;
-    gap: 8px;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    gap: 10px;
+    transition: all 0.3s ease;
 }
 
 .navbar-menu-button:hover {
-    background-color: #f7f7f7;
+    background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .menu-icon {
     font-size: 18px;
+    color: #484848;
 }
 
 .profile-icon {
-
     font-size: 18px;
-    background-color: #d3d3d3;
+    background-color: #e0e0e0;
     border-radius: 50%;
-
-    width: 26px;
-    height: 26px;
-    padding-left: 1px;
-    transition: background-color 0.2s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .navbar-menu-button:hover .profile-icon {
-    background-color: #bfbfbf; /* Darker gray on hover */
+    background-color: #c4c4c4; /* Darker shade of gray */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .navbar-right {
+        margin-top: 15px;
+        justify-content: flex-start;
+    }
 }
